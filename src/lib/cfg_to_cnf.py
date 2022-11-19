@@ -95,10 +95,3 @@ def convert_cfg(cfg_text):
     cnf_algorithm(grammar)
     # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
-
-
-def write_to_file(cfg_grammar):
-    # I. S. cfg_grammar berbentuk list of list Production Rule suatu CFG
-    # F. S. Menuliskan grammar dalam bentuk dalam file .txt
-    #       List ['S','A','B'] akan ditulis sebagai S -> A B
-    pass
