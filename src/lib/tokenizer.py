@@ -21,6 +21,7 @@ def categorize_token(token):
 def js_to_tokens(js_file):
     # Fungsi menerima file *.js yang telah dalam format list of lines
     # Fungsi ini lalu mengubahnya menjadi dalam bentuk List of List of string (tokenisasi)
+    line_index = 1
     tokens_temp = []
 
     for line in js_file:
@@ -43,7 +44,7 @@ def js_to_tokens(js_file):
         line = line.replace('"', ' " ')
         line = line.replace("'", " ' ")
         line = line.split()
-        line.append('endline')
+        line.append('endline'+str(line_index))
         tokens_temp.append(line)
 
     return tokens_temp
