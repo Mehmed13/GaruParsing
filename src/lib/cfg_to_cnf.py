@@ -199,5 +199,3 @@ def convert_cfg(cfg_text):
     cnf_algorithm(grammar)
     # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
-
-convert_cfg("cfg.txt")
