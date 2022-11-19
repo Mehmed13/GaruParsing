@@ -79,14 +79,15 @@ def write_cnf_file(cnf_grammar):
         list_rule = cnf_grammar[rule]
         file.write(rule)
         file.write(" ->")
-        if (len(list_rule) > 1):
+        if (len(list_rule) == 1):
             for i in range(len(list_rule[0])):
-                file.write(" {}".format(list_rule[i]))
+                file.write(" {}".format(list_rule[0][i]))
         else:
             for i in range(len(list_rule)):
-                for j in range(len(list_rule[0])):
+                for j in range(len(list_rule[i])):
                     file.write(" {}".format(list_rule[i][j]))
-                file.write(" |")
+                if (i != len(list_rule)-1):
+                    file.write(" |")
         file.write("\n")
     file.close()
 
@@ -198,3 +199,5 @@ def convert_cfg(cfg_text):
     cnf_algorithm(grammar)
     # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
+
+convert_cfg("cfg.txt")
