@@ -9,20 +9,21 @@ def simplify_cfg(cfg_grammar):
     
     tokens_terminal, terminal_rule = read_terminal('terminal.txt')
 
-    listremove = []
-
     for rule in cfg_grammar:
         list_rule = cfg_grammar[rule]
-        if ((len(list_rule) == 1) and (len(list_rule[0]) == 1) and (list_rule[0][0] in cfg_grammar) and ((list_rule[0][0] in terminal_rule) or (list_rule[0][0] not in tokens_terminal))):
-            while ((len(list_rule) == 1) and (list_rule[0][0] in cfg_grammar)):
-                for i in range(len(cfg_grammar[list_rule[0][0]])):
-                    list_rule.append((cfg_grammar[list_rule[0][0]])[i])
-                if (list_rule[0][0] not in listremove):
-                    listremove.append(list_rule[0][0])
-                list_rule.remove(list_rule[0])
-
-    for i in range(len(listremove)):
-        cfg_grammar.pop(listremove[i])
+        removelist = []
+        for i in range(len(list_rule)):
+            if ((len(list_rule[i]) == 1) and ((list_rule[i])[0] in cfg_grammar) and ((list_rule[i][0] in terminal_rule) or (list_rule[i][0] not in tokens_terminal))):
+                for j in range(len(cfg_grammar[list_rule[i][0]])):
+                    if (len((cfg_grammar[list_rule[i][0]])[j]) == 1) and ((cfg_grammar[list_rule[i][0]])[j][0] in cfg_grammar):
+                        grammar = (cfg_grammar[list_rule[i][0]])[j][0]
+                        for k in range(len(cfg_grammar[grammar])):
+                            list_rule.append(cfg_grammar[grammar][k])
+                    else:
+                        list_rule.append((cfg_grammar[list_rule[i][0]])[j])
+                removelist.append(list_rule[i])
+        for i in range(len(removelist)):
+            list_rule.remove(removelist[i])
 
 
 def cnf_algorithm(cfg_grammar):
@@ -195,6 +196,21 @@ def convert_cfg(cfg_text):
 
     # Melakukan simplifikasi dari cfg_grammar
     simplify_cfg(grammar)
+
+    """
+    Test simplify_cfg
+
+    sum = 0
+    for rule in grammar:
+        sum += len(grammar[rule])
+        print(rule)
+        for i in range(len(grammar[rule])):
+            print((grammar[rule])[i])
+        print(len(grammar[rule]))
+        print('')
+    print(sum)
+    """
+
     # Mengubah cfg menjadi cnf
     cnf_algorithm(grammar)
     # Menulis grammar cnf ke dalam file *.txt
