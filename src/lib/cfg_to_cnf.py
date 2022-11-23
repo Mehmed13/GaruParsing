@@ -31,41 +31,35 @@ def cnf_algorithm(cfg_grammar):
     # F.S. cfg_grammar berubah menjadi dalam bentuk cnf
     #      Contoh: ['S','A','B','C'] diubah menjadi ['S','A','X'], ['X','B','C']    ['M','D','E','F']
     # Proses: Konversi cfg menjadi cnf
-    list1 = []
-    list2 = []
+    
     addition = 1
-    for rule in cfg_grammar:
-        list_rule = cfg_grammar[rule]
-        for i in range(len(list_rule)):
-            if (len(list_rule[i])) > 2:
-                new_rule = []
-                for j in range(1, len(list_rule[i])):
-                    new_rule.append(list_rule[i][j])
-                for k in range(1, len(list_rule[i])):
-                    list_rule[i].pop()
-                new_nonterm = new_rule[0] + "_trans"
-                if new_nonterm in list1:
-                    new_nonterm += "{}".format(addition)
-                    addition += 1
-                elif new_nonterm in cfg_grammar:
-                    new_nonterm += "{}".format(addition)
-                    addition += 1
-                list_rule[i].append(new_nonterm)
-                new_rule.insert(0, new_nonterm)
-                list1.append(new_rule[0])
-                list2.append(new_rule[1:])
+    repeat = 0
+    while repeat < len(cfg_grammar):
+        new_dict = {}
+        for rule in cfg_grammar:
+            list_rule = cfg_grammar[rule]
+            for i in range(len(list_rule)):
+                if (len(list_rule[i]) > 2):
+                    new_rule = []
+                    for j in range(1, len(list_rule[i])):
+                        new_rule.append(list_rule[i][j])
+                    for k in range(len(list_rule[i])-1, 0, -1):
+                        list_rule[i].pop(k)
+                    new_nonterm = new_rule[0] + "_trans"
+                    if new_nonterm in new_dict:
+                        new_nonterm += "{}".format(addition)
+                        addition += 1
+                    elif new_nonterm in cfg_grammar:
+                        new_nonterm += "{}".format(addition)
+                        addition += 1
+                    list_rule[i].append(new_nonterm)
+                    new_rule.insert(0, new_nonterm)
+                    listEl = []
+                    listEl.append(new_rule[1:])
+                    new_dict[new_rule[0]] = listEl
 
-    for i in range(len(list1)):
-        list3 = []
-        list3.append(list2[0])
-        cfg_grammar[list1[i]] = list3
-        list2 = list2[1:]
-
-    cfg_grammar2 = cfg_grammar.copy()
-    for rule2 in cfg_grammar2:
-        list_rule = cfg_grammar[rule2]
-        if (len(list_rule[0]) > 2):
-            cnf_algorithm(cfg_grammar)
+        cfg_grammar.update(new_dict)
+        repeat += 1
 
 
 def write_cnf_file(cnf_grammar):
@@ -213,5 +207,6 @@ def convert_cfg(cfg_text):
 
     # Mengubah cfg menjadi cnf
     cnf_algorithm(grammar)
+
     # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
