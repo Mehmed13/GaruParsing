@@ -1,4 +1,4 @@
-from .tokenizer import *
+from lib.tokenizer import *
 
 
 def simplify_cfg(cfg_grammar):
@@ -6,9 +6,8 @@ def simplify_cfg(cfg_grammar):
     # F. S. cfg_grammar berbentuk list of list Production Rule suatu CFG yang telah disimplifikasi
     #       Contoh: {'A': [['B']], 'B': [['C']]} menjadi {'A': [['C']]}.
     # Proses: Melakukan simplifikasi terhadap cfg_grammar
-    
-    # Membaca terminal
-    tokens_terminal, terminal_rule = read_terminal('terminal.txt')
+
+    tokens_terminal, terminal_rule = read_terminal('lib/terminal.txt')
 
     # Mengubah ditionary menjadi list untuk memudahkan pemrosesan list
     list_grammar = []
@@ -60,9 +59,10 @@ def simplify_cfg(cfg_grammar):
 def cnf_algorithm(cfg_grammar):
     # I.S. cfg_grammar adalah grammar dalam cfg yang sudah disimplifikasi
     # F.S. cfg_grammar berubah menjadi dalam bentuk cnf
-    #      Contoh: {'S': [['A','B','C']]} diubah menjadi {'S': [['A','X']], 'X': [['B','C']]}
+    #      Contoh: {'S':[['A','B','C']]} diubah menjadi {'S':['A','X']}, {'X':[['B','C']]}
+
     # Proses: Konversi cfg menjadi cnf
-    
+
     addition = 1
     repeat = 0
     while repeat < len(cfg_grammar):
@@ -97,7 +97,10 @@ def write_cnf_file(cnf_grammar):
     # F.S. terbentuk sebuah file *.txt yang berisi cnf
     #      Dictionary {'S': [['A','B']]} akan ditulis sebagai S -> A B
 
-    file = open('cnf.txt', 'w')
+    # filename = input("Enter the output file name: ")
+    # file = open('filename', 'w')
+    file = open('lib/cnf.txt', 'w')
+
     for rule in cnf_grammar:
         list_rule = cnf_grammar[rule]
         file.write(rule)
@@ -153,7 +156,6 @@ def read_grammar_text(grammar_text):
                 for j in range(pipe_idx, len(item)):
                     item.pop()
                 list_rule.insert(insertion_idx, rule_branch)
-                
     return grammar
 
 
@@ -191,7 +193,7 @@ def read_terminal(terminal_file_name):
         optimized_line = line.replace("\n", "")
         tokens_terminal.append(optimized_line)
 
-    terminal_rulefile = open("terminal_rule.txt", "r")
+    terminal_rulefile = open("lib/terminal_rule.txt", "r")
     terminal_ruletemp = terminal_rulefile.readlines()
     terminal_rulefile.close()
 
@@ -238,6 +240,5 @@ def convert_cfg(cfg_text):
 
     # Mengubah cfg menjadi cnf
     cnf_algorithm(grammar)
-
     # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
