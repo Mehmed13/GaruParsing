@@ -170,7 +170,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
         return cyk_table[n_tokens_final-1][0], error_Lines
 
     else:
-        return ["ALGORITHM"]
+        return ["START"]
 
 
 def check_validity(file_terminal, cnf_cnf_grammar, file_input):
@@ -184,7 +184,7 @@ def check_validity(file_terminal, cnf_cnf_grammar, file_input):
     valid = False
     print(last_el)
     for term in last_el:
-        if term == "ALGORITHM":
+        if term == "START":
             print("Accepted")
             valid = True
             break
