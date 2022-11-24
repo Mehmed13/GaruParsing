@@ -9,6 +9,7 @@ def simplify_cfg(cfg_grammar):
 
     tokens_terminal, terminal_rule = read_terminal('lib/terminal.txt')
 
+    # Mengubah ditionary menjadi list untuk memudahkan pemrosesan list
     list_grammar = []
 
     for rule in cfg_grammar:
@@ -20,6 +21,7 @@ def simplify_cfg(cfg_grammar):
 
     cfg_grammar.clear()
 
+    # Proses simplifikasi
     i = 0
     while i < len(list_grammar):
         if ((len(list_grammar[i]) == 2) and ((list_grammar[i][1] in terminal_rule) or (list_grammar[i][1] not in tokens_terminal))):
@@ -39,6 +41,7 @@ def simplify_cfg(cfg_grammar):
             list_grammar.remove(list_grammar[i])
         i += 1
 
+    # Mengubah list menjadi dictionary
     key = list_grammar[0][0]
     list_of_rule = []
     for i in range(len(list_grammar)):
@@ -57,6 +60,7 @@ def cnf_algorithm(cfg_grammar):
     # I.S. cfg_grammar adalah grammar dalam cfg yang sudah disimplifikasi
     # F.S. cfg_grammar berubah menjadi dalam bentuk cnf
     #      Contoh: {'S':[['A','B','C']]} diubah menjadi {'S':['A','X']}, {'X':[['B','C']]}
+
     # Proses: Konversi cfg menjadi cnf
 
     addition = 1
@@ -84,19 +88,19 @@ def cnf_algorithm(cfg_grammar):
                     listEl = []
                     listEl.append(new_rule[1:])
                     new_dict[new_rule[0]] = listEl
-
         cfg_grammar.update(new_dict)
         repeat += 1
 
 
 def write_cnf_file(cnf_grammar):
-    # I.S. cnf_grammar adalah list of list of production rule yang berada dalam bentuk cnf
+    # I.S. cnf_grammar adalah dictionary of production rule yang berada dalam bentuk cnf
     # F.S. terbentuk sebuah file *.txt yang berisi cnf
     #      Dictionary {'S': [['A','B']]} akan ditulis sebagai S -> A B
 
     # filename = input("Enter the output file name: ")
     # file = open('filename', 'w')
     file = open('lib/cnf.txt', 'w')
+
     for rule in cnf_grammar:
         list_rule = cnf_grammar[rule]
         file.write(rule)
@@ -152,7 +156,6 @@ def read_grammar_text(grammar_text):
                 for j in range(pipe_idx, len(item)):
                     item.pop()
                 list_rule.insert(insertion_idx, rule_branch)
-
     return grammar
 
 
@@ -218,11 +221,8 @@ def convert_cfg(cfg_text):
     for i in removerule:
         grammar.pop(i)
 
-    # Melakukan simplifikasi dari cfg_grammar
-    simplify_cfg(grammar)
-
     """
-    Test simplify_cfg
+    Code testing
 
     sum = 0
     for rule in grammar:
@@ -234,6 +234,9 @@ def convert_cfg(cfg_text):
         print('')
     print(sum)
     """
+
+    # Melakukan simplifikasi dari cfg_grammar
+    simplify_cfg(grammar)
 
     # Mengubah cfg menjadi cnf
     cnf_algorithm(grammar)
