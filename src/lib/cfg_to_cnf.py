@@ -1,4 +1,4 @@
-from .tokenizer import *
+from lib.tokenizer import *
 
 
 def simplify_cfg(cfg_grammar):
@@ -6,30 +6,59 @@ def simplify_cfg(cfg_grammar):
     # F. S. cfg_grammar berbentuk list of list Production Rule suatu CFG yang telah disimplifikasi
     #       Contoh: {'A': [['B']], 'B': [['C']]} menjadi {'A': [['C']]}.
     # Proses: Melakukan simplifikasi terhadap cfg_grammar
-    
-    tokens_terminal, terminal_rule = read_terminal('terminal.txt')
 
-    listremove = []
+    tokens_terminal, terminal_rule = read_terminal('lib/terminal.txt')
 
     for rule in cfg_grammar:
         list_rule = cfg_grammar[rule]
-        if ((len(list_rule) == 1) and (len(list_rule[0]) == 1) and (list_rule[0][0] in cfg_grammar) and ((list_rule[0][0] in terminal_rule) or (list_rule[0][0] not in tokens_terminal))):
-            while ((len(list_rule) == 1) and (list_rule[0][0] in cfg_grammar)):
-                for i in range(len(cfg_grammar[list_rule[0][0]])):
-                    list_rule.append((cfg_grammar[list_rule[0][0]])[i])
-                if (list_rule[0][0] not in listremove):
-                    listremove.append(list_rule[0][0])
-                list_rule.remove(list_rule[0])
-
-    for i in range(len(listremove)):
-        cfg_grammar.pop(listremove[i])
+        removelist = []
+        for i in range(len(list_rule)):
+            if ((len(list_rule[i]) == 1) and ((list_rule[i])[0] in cfg_grammar) and ((list_rule[i][0] in terminal_rule) or (list_rule[i][0] not in tokens_terminal))):
+                for j in range(len(cfg_grammar[list_rule[i][0]])):
+                    if (len((cfg_grammar[list_rule[i][0]])[j]) == 1) and ((cfg_grammar[list_rule[i][0]])[j][0] in cfg_grammar):
+                        grammar = (cfg_grammar[list_rule[i][0]])[j][0]
+                        for k in range(len(cfg_grammar[grammar])):
+                            list_rule.append(cfg_grammar[grammar][k])
+                    else:
+                        list_rule.append((cfg_grammar[list_rule[i][0]])[j])
+                removelist.append(list_rule[i])
+        for i in range(len(removelist)):
+            list_rule.remove(removelist[i])
 
 
 def cnf_algorithm(cfg_grammar):
     # I.S. cfg_grammar adalah grammar dalam cfg yang sudah disimplifikasi
     # F.S. cfg_grammar berubah menjadi dalam bentuk cnf
-    #      Contoh: ['S','A','B','C'] diubah menjadi ['S','A','X'], ['X','B','C']    ['M','D','E','F']
+    #      Contoh: {'S':[['A','B','C']]} diubah menjadi {'S':['A','X']}, {'X':[['B','C']]}
     # Proses: Konversi cfg menjadi cnf
+
+    # addition = 1
+    # list_rule_initial = []
+    # for rule1 in cfg_grammar:
+    #     list_rule_initial.append(rule1)
+
+    # for rule in list_rule_initial:
+    #     list_rule = cfg_grammar[rule]
+    #     rulex = rule
+    #     for i in range(len(list_rule)):
+    #         while (len(list_rule[i])) > 2:
+    #             new_rule = []
+    #             for j in range(1, len(list_rule[i])):
+    #                 new_rule.append(list_rule[i][j])
+    #             for k in range(1, len(list_rule[i])):
+    #                 list_rule[i].pop()
+    #             new_nonterm = new_rule[0] + "_trans"
+    #             if new_nonterm in cfg_grammar:
+    #                 new_nonterm += "{}".format(addition)
+    #                 addition += 1
+    #             list_rule[i].append(new_nonterm)
+    #             if rulex == rule:
+    #                 cfg_grammar[rulex][i] = list_rule[i]
+    #             else:
+    #                 cfg_grammar[rulex][0] = list_rule[i]
+    #             cfg_grammar[new_nonterm] = [new_rule]
+    #             list_rule[i] = new_rule
+    #             rulex = new_nonterm
     list1 = []
     list2 = []
     addition = 1
@@ -70,11 +99,11 @@ def cnf_algorithm(cfg_grammar):
 def write_cnf_file(cnf_grammar):
     # I.S. cnf_grammar adalah list of list of production rule yang berada dalam bentuk cnf
     # F.S. terbentuk sebuah file *.txt yang berisi cnf
-    #      List ['S','A','B'] akan ditulis sebagai S -> A B
+    #      Dictionary {'S': [['A','B']]} akan ditulis sebagai S -> A B
 
     # filename = input("Enter the output file name: ")
     # file = open('filename', 'w')
-    file = open('cnf.txt', 'w')
+    file = open('lib/cnf.txt', 'w')
     for rule in cnf_grammar:
         list_rule = cnf_grammar[rule]
         file.write(rule)
@@ -130,7 +159,7 @@ def read_grammar_text(grammar_text):
                 for j in range(pipe_idx, len(item)):
                     item.pop()
                 list_rule.insert(insertion_idx, rule_branch)
-    
+
     return grammar
 
 
@@ -168,7 +197,7 @@ def read_terminal(terminal_file_name):
         optimized_line = line.replace("\n", "")
         tokens_terminal.append(optimized_line)
 
-    terminal_rulefile = open("terminal_rule.txt", "r")
+    terminal_rulefile = open("lib/terminal_rule.txt", "r")
     terminal_ruletemp = terminal_rulefile.readlines()
     terminal_rulefile.close()
 
@@ -195,7 +224,32 @@ def convert_cfg(cfg_text):
 
     # Melakukan simplifikasi dari cfg_grammar
     simplify_cfg(grammar)
+
+    """
+    Test simplify_cfg
+
+    sum = 0
+    for rule in grammar:
+        sum += len(grammar[rule])
+        print(rule)
+        for i in range(len(grammar[rule])):
+            print((grammar[rule])[i])
+        print(len(grammar[rule]))
+        print('')
+    print(sum)
+    """
+
     # Mengubah cfg menjadi cnf
     cnf_algorithm(grammar)
-    # Menulis grammar cnf ke dalam file *.txt
     write_cnf_file(grammar)
+    # sum = 0
+    # for rule in grammar:
+    #     sum += len(grammar[rule])
+    #     print(rule)
+    #     for i in range(len(grammar[rule])):
+    #         print((grammar[rule])[i])
+    #     print(len(grammar[rule]))
+    #     print('')
+    # print(sum)
+
+    # Menulis grammar cnf ke dalam file *.txt

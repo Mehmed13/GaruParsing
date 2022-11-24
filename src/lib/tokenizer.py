@@ -1,6 +1,6 @@
 def categorize_token(token):
     # Fungsi menerima token yang tidak terdapat dalam terminal. Apabila berbentuk variabel yang dapat diterima oleh python, maka
-    # fungsi akan mengembalikan 'variabel'. Apabila berbentuk variabel, maka fungsi akan mengembalikan 'num'. Apabila tidak memenuhi
+    # fungsi akan mengembalikan 'word'. Apabila berbentuk variabel, maka fungsi akan mengembalikan 'num'. Apabila tidak memenuhi
     # keduanya, maka fungsi akan mengembalikan 'undef'.
 
     # Deklarasi character yang termasuk ke dalam number dan
@@ -15,12 +15,13 @@ def categorize_token(token):
             return "num"
         else:
             return "undef"
-    return "variabel"
+    return "word"
 
 
 def js_to_tokens(js_file):
     # Fungsi menerima file *.js yang telah dalam format list of lines
     # Fungsi ini lalu mengubahnya menjadi dalam bentuk List of List of string (tokenisasi)
+    line_index = 1
     tokens_temp = []
 
     for line in js_file:
@@ -43,7 +44,8 @@ def js_to_tokens(js_file):
         line = line.replace('"', ' " ')
         line = line.replace("'", " ' ")
         line = line.split()
-        line.append('endline')
+        line.append('endline'+str(line_index))
         tokens_temp.append(line)
+        line_index += 1
 
     return tokens_temp
