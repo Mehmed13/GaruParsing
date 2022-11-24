@@ -17,7 +17,8 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
     # mengubah token yang bukan terminal sesuai kategori {word, num, undef}
     skip_for_string = False
     open_string = None
-
+    # print(tokens_input)
+    # print(tokens_terminal)
     for token in tokens_input:
         idx = tokens_input.index(token)
         if skip_for_string:  # Jika token bagian dari string
@@ -76,6 +77,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                     skip_for_string = True
                     open_string = '"'
 
+    # Menghapus endline pada tokens
     n_tokens_temp = len(tokens_input)
     initial_tokens_input = tokens_input.copy()
     for i in range(n_tokens_temp):
@@ -95,9 +97,6 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
         # Mengisi baris pertama sesuai terminal dari tokens_input yang dibaca
         # tiap sel diisi dengan aturan produksi yang menghasilkan terminal tersebut
         # print(cnf_grammar)
-        # print()
-        # print()
-        # print()
         for i, token in enumerate(tokens_input):
             for rule in cnf_grammar:
                 for list_rule in cnf_grammar[rule]:
@@ -105,53 +104,12 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                         cyk_table[0][i].append(rule)
         # print(cyk_table)
         print()
-        # print()
-        # LEVEL DI ATAS BASE:
-        # Misal kita ingin menentukan X[i][j] pada cyk_table
-        # kita telah mengisi X pada baris-baris di atasnya
-        # Misal:
-        # [['B'] ['A','C']]
-        # [[A -> B A] [S -> B C] maka diisi ['A','S']]
-        # Pertama, iterasi semua cell pada cyk table
-        # for i in range(1, n_tokens_final):
-        #     for j in range(n_tokens_final-i):
-
-        #         left_i = 0
-        #         right_i = i - 1
-        #         right_j = j + 1
-
-        #         while (left_i < i and right_i >= 0):
-        #             left = cyk_table[left_i][j]
-        #             right = cyk_table[right_i][right_j]
-
-        #             left_cell = [n for n in left]
-        #             right_cell = [n for n in right]
-
-        #             for first in left_cell:
-        #                 for second in right_cell:
-        #                     target_string = []
-        #                     target_string.append(first)
-        #                     target_string.append(second)
-        #                     print(target_string)
-        #                     print()
-        #                     print()
-        #                     for rule in cnf_grammar:
-        #                         for alt in range(len(cnf_grammar[rule])):
-        #                             if (target_string == cnf_grammar[rule][alt]) and (rule not in cyk_table[i][j]):
-        #                                 cyk_table[i][j].append(rule)
-        #             right_j += 1
-        #             left_i += 1
-        #             right_i -= 1
         for i in range(1, n_tokens_final):
             for j in range(n_tokens_final-i):
                 for k in range(i):
-                    # Test for combinations
+                    # Fill the cell in cyk_table
                     for production1 in cyk_table[i-k-1][j]:
                         for production2 in cyk_table[k][j+i-k]:
-                            # try:
-                            #     cyk_table[i][j] = cnf_grammar[production1+production2]
-                            # except KeyError:
-                            #     continue
                             target_string = [production1, production2]
                             # print(target_string)
                             for rule in cnf_grammar:
@@ -183,6 +141,7 @@ def check_validity(file_terminal, cnf_cnf_grammar, file_input):
         file_terminal, cnf_cnf_grammar, file_input)
     valid = False
     print(last_el)
+    # Pengecekan elemen top
     for term in last_el:
         if term == "START":
             print("Accepted")
