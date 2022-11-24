@@ -9,21 +9,48 @@ def simplify_cfg(cfg_grammar):
     
     tokens_terminal, terminal_rule = read_terminal('terminal.txt')
 
+    list_grammar = []
+
     for rule in cfg_grammar:
         list_rule = cfg_grammar[rule]
-        removelist = []
         for i in range(len(list_rule)):
-            if ((len(list_rule[i]) == 1) and ((list_rule[i])[0] in cfg_grammar) and ((list_rule[i][0] in terminal_rule) or (list_rule[i][0] not in tokens_terminal))):
-                for j in range(len(cfg_grammar[list_rule[i][0]])):
-                    if (len((cfg_grammar[list_rule[i][0]])[j]) == 1) and ((cfg_grammar[list_rule[i][0]])[j][0] in cfg_grammar):
-                        grammar = (cfg_grammar[list_rule[i][0]])[j][0]
-                        for k in range(len(cfg_grammar[grammar])):
-                            list_rule.append(cfg_grammar[grammar][k])
-                    else:
-                        list_rule.append((cfg_grammar[list_rule[i][0]])[j])
-                removelist.append(list_rule[i])
-        for i in range(len(removelist)):
-            list_rule.remove(removelist[i])
+            listconv = list_rule[i]
+            listconv.insert(0, rule)
+            list_grammar.append(listconv)
+
+    cfg_grammar.clear()
+
+    i = 0
+    while i < len(list_grammar):
+        if ((len(list_grammar[i]) == 2) and ((list_grammar[i][1] in terminal_rule) or (list_grammar[i][1] not in tokens_terminal))):
+            idx_terminal = []
+            for j in range(0, len(list_grammar)):
+                if list_grammar[j][0] == list_grammar[i][1]:
+                    idx_terminal.append(j)
+            insertion_idx = i + 1
+            addition = 0
+            for k in idx_terminal:
+                new_rule = []
+                for termnonterm in list_grammar[k + addition]:
+                    new_rule.append(termnonterm)
+                new_rule[0] = list_grammar[i][0]
+                list_grammar.insert(insertion_idx, new_rule)
+                addition += 1
+            list_grammar.remove(list_grammar[i])
+        i += 1
+
+    key = list_grammar[0][0]
+    list_of_rule = []
+    for i in range(len(list_grammar)):
+        if (list_grammar[i][0] == key):
+            list_of_rule.append(list_grammar[i][1:])
+        else:
+            cfg_grammar[key] = list_of_rule
+            list_of_rule = []
+            key = list_grammar[i][0]
+            list_of_rule.append(list_grammar[i][1:])
+            if (i == len(list_grammar)-1):
+                cfg_grammar[key] = list_of_rule
 
 
 def cnf_algorithm(cfg_grammar):
@@ -183,10 +210,13 @@ def convert_cfg(cfg_text):
     grammar = read_grammar_text(cfg_text)
 
     # Membersihkan rule kosong
+    removerule = []
     for rule in grammar:
         list_rule = grammar[rule]
         if (len(list_rule) == 0):
-            grammar.pop(rule)
+            removerule.append(rule)
+    for i in removerule:
+        grammar.pop(i)
 
     # Melakukan simplifikasi dari cfg_grammar
     simplify_cfg(grammar)
