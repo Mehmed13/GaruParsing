@@ -17,8 +17,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
     # mengubah token yang bukan terminal sesuai kategori {word, num, undef}
     skip_for_string = False
     open_string = None
-    # print(tokens_input)
-    # print(tokens_terminal)
+
     idx = 0  # inisialisasi index tokens_input
     tokens_input_final = []  # inisialisasi list yang akan menampung tokens semifinal
     n_tokens_initial = len(tokens_input)
@@ -41,6 +40,11 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 category = categorize_token(token)
                 tokens_input_final.append(category)
                 idx += 1
+                if (category == "undef"):
+                    next_idx = idx
+                    while (tokens_input[next_idx][:10] != "endlineYaa"):
+                        next_idx += 1
+                    error_Lines.append(tokens_input[next_idx][10:])
             else:  # jika token merupakan terminal
                 if (token == "~C_A~"):
                     idx += 1
@@ -65,7 +69,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 else:  # jika token terminal lain
                     tokens_input_final.append(token)
                     idx += 1
-    print(tokens_input_final)
+    # print(tokens_input_final)
 
     # Menghapus endlineYaa pada tokens
     n_tokens_temp = len(tokens_input_final)
@@ -76,7 +80,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
             tokens_input_final.remove(token)
     # print()
     # print()
-    print(tokens_input_final)
+    # print(tokens_input_final)
     n_tokens_final = len(tokens_input_final)
 
     if (n_tokens_final != 0):
@@ -136,7 +140,7 @@ def check_validity(file_terminal, cnf_cnf_grammar, file_input):
     last_el, error_Lines = cyk_algorithm(
         file_terminal, cnf_cnf_grammar, file_input)
     valid = False
-    print(last_el)
+    # print(last_el)
     # Pengecekan elemen top
     for term in last_el:
         if term == "START":
