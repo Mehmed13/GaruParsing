@@ -1,10 +1,10 @@
 switch (a) {
     case 1:
         console.log("satu")
-        break
+        // break
     case 2:
         console.log("dua")
-        break
+        // break
     default:
         console.log("bukan satu atau dua")
 }
