@@ -1,20 +1,15 @@
 let b = 2
 let a = 2
-switch(~b+b,2){
+switch(b,c,d){
     default:
-        if(1==2){
-            a=2;;;
-            switch(1,2,3){
-                
+        if(true){
+            switch(~a){
+
             }
         }
-    case(~a):
-        switch(a){
-
-        }
-    case(~a):
-        switch(a){
-
-        }
-    
+        a=2
+    case (a):
+        a=3
+    case (b):
+        a=3
 }
