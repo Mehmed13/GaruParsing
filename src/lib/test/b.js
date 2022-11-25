@@ -1,6 +1,6 @@
-if(a>=(b)) {
-    if(A&&b) {
-        if(A||B) {
+if(a>(b)) {
+    if(A>=b) {
+        if(A>B) {
 
         }
     }
@@ -15,13 +15,13 @@ if(a>=(b)) {
     }
 }
 a=3
-if(A&&b) {
-    if(A||B) {
+if(A>b) {
+    if(A>=B) {
 
     }
 }
 else if (true){
-    a+=1
+    a=1
     
 }
 else{}
