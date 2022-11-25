@@ -63,12 +63,26 @@ def js_to_tokens(js_file):
         line = line.replace('/*', ' ~C_O~ ')
         line = line.replace('*/', ' ~C_C~ ')
     
+        line = line.replace('*=', ' ~TE~ ')
+        line = line.replace('+=', ' ~PE~ ')
+        line = line.replace('-=', ' ~ME~ ')
+        line = line.replace('/=', ' ~DE~ ')
+        line = line.replace('%=', ' ~ModE~ ')
+        
+        line = line.replace('>>>=', ' ~EF_R_S~ ')
+        line = line.replace('>>=', ' ~ER_S~ ')
+        line = line.replace('<<=', ' ~EL_S~ ')
+        line = line.replace('&=', ' EAND ')
+        line = line.replace('|=', ' ~EOR~ ')
+        line = line.replace('^=', ' EXOR ')
+        
         line = line.replace('>>>', ' ~F_R_S~ ')
         line = line.replace('>>', ' ~R_S~ ')
         line = line.replace('<<', ' ~L_S~ ')
         line = line.replace('&', ' & ')
         line = line.replace('|', ' ~OR~ ')
         line = line.replace('^', ' ^ ')
+        
         
         line = line.replace('(', ' ( ')
         line = line.replace(')', ' ) ')

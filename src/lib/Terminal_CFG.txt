@@ -65,3 +65,14 @@ endlineYaa
 ~C_A~
 ~C_O~
 ~C_C~
+~TE~
+~PE~
+~ME~
+~DE~
+~ModE~
+~EF_R_S~
+~ER_S~
+~EL_S~
+EAND
+~EOR~
+EXOR
