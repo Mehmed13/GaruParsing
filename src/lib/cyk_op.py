@@ -60,7 +60,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                             tokens_input.remove(tokens_input[idx])
                         next_idx = idx
                         n_tokens_initial = len(tokens_input)
-                        while (next_idx < n_tokens_initial) and ((tokens_input[idx] != "*") or (tokens_input[idx + 1] != "/")):
+                        while (next_idx < n_tokens_initial) and ((tokens_input[idx] != "*") and (tokens_input[idx + 1] != "/")):
                             tokens_input.remove(tokens_input[idx])
                             next_idx += 1
                         if (tokens_input):
@@ -128,7 +128,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
         return cyk_table[n_tokens_final-1][0], error_Lines
 
     else:
-        return ["START"]
+        return ["START"],[]
 
 
 def check_validity(file_terminal, cnf_cnf_grammar, file_input):
