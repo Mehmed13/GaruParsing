@@ -17,8 +17,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
     # mengubah token yang bukan terminal sesuai kategori {word, num, undef}
     skip_for_string = False
     open_string = None
-    # print(tokens_input)
-    # print(tokens_terminal)
+
     idx = 0  # inisialisasi index tokens_input
     tokens_input_final = []  # inisialisasi list yang akan menampung tokens semifinal
     n_tokens_initial = len(tokens_input)
@@ -37,28 +36,34 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 tokens_input_final.append("word")
                 idx += 1
         else:  # Jika tidak berada di dalam string
-            if (token[:7] not in tokens_terminal):  # Jika token bukan merupakan terminal
+            if (token[:10] not in tokens_terminal):  # Jika token bukan merupakan terminal
                 category = categorize_token(token)
                 tokens_input_final.append(category)
                 idx += 1
+                if (category == "undef"):
+                    next_idx = idx
+                    while (tokens_input[next_idx][:10] != "endlineYaa"):
+                        next_idx += 1
+                    error_Lines.append(tokens_input[next_idx][10:])
             else:  # jika token merupakan terminal
-                if (token == '/'):
-                    if (tokens_input[idx+1] == '/'):  # comment single line
-                        idx += 2
-                        while ((idx < n_tokens_initial) and (tokens_input[idx][:7] != "endline")):
-                            idx += 1
-                        if (tokens_input[idx][:7] == "endline"):
-                            tokens_input_final.append(tokens_input[idx])
-                            idx += 1
-                    elif (tokens_input[idx+1] == '*'):  # comment multiline
-                        idx += 2
-                        while ((idx < n_tokens_initial) and (tokens_input[idx] != '*' and tokens_input[idx+1] != '/')):
-                            idx += 1
-                        if ((tokens_input[idx] == '*') and (tokens_input[idx+1] == '/')):
-                            idx += 2
-                    else:  # jika token terminal lain
-                        tokens_input_final.append(token)
+                if (token == "~C_A~"):
+                    idx += 1
+                    while ((idx < n_tokens_initial) and (tokens_input[idx][:10] != "endlineYaa")):
                         idx += 1
+                    if (tokens_input[idx][:10] == "endlineYaa"):
+                        tokens_input_final.append(tokens_input[idx])
+                        idx += 1
+
+                elif (token == "~C_O~"):
+                    idx += 1
+                    while ((idx < n_tokens_initial) and (tokens_input[idx] != "~C_C~")):
+                        idx += 1
+                    if (idx < n_tokens_initial):
+                        if (tokens_input[idx] == "~C_C~"):
+                            idx += 1
+                    else:
+                        tokens_input_final.append("undef")
+
                 elif ((token == "'") or (token == '"')):  # Jika pembuka string
                     skip_for_string = True
                     tokens_input_final.append(token)
@@ -69,16 +74,16 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                     idx += 1
     # print(tokens_input_final)
 
-    # Menghapus endline pada tokens
+    # Menghapus endlineYaa pada tokens
     n_tokens_temp = len(tokens_input_final)
     tokens_input_semifinal = tokens_input_final.copy()
     for i in range(n_tokens_temp):
-        if ("endline" in tokens_input_semifinal[i]):
+        if ("endlineYaa" in tokens_input_semifinal[i]):
             token = tokens_input_semifinal[i]
             tokens_input_final.remove(token)
     # print()
     # print()
-    print(tokens_input_final)
+    # print(tokens_input_final)
     n_tokens_final = len(tokens_input_final)
 
     if (n_tokens_final != 0):
@@ -138,7 +143,7 @@ def check_validity(file_terminal, cnf_cnf_grammar, file_input):
     last_el, error_Lines = cyk_algorithm(
         file_terminal, cnf_cnf_grammar, file_input)
     valid = False
-    print(last_el)
+    # print(last_el)
     # Pengecekan elemen top
     for term in last_el:
         if term == "START":
