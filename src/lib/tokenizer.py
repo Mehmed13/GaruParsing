@@ -42,8 +42,12 @@ def js_to_tokens(js_file):
         line = line.replace('~M_M~', '@')
         line = line.replace('~C_A~', '@')
         line = line.replace('~C_O~', '@')
-        line = line.replace('~C_C~', '@')
+        line = line.replace('~C_C~', '@')  # KALAU MISAL ADA WORD YG NEGASI GMN ? 
+        line = line.replace('~F_R_S~', '@')
+        line = line.replace('~R_S~', '@')
+        line = line.replace('~L_S~', '@')
         # replacement 
+        line = line.replace('~', ' ~ ')
         line = line.replace('!=', ' ~NO_EQ~ ')
         line = line.replace('===', ' ~E_E_E~ ')
         line = line.replace('!==', ' ~N_E_E~ ')
@@ -58,6 +62,14 @@ def js_to_tokens(js_file):
         line = line.replace('//', ' ~C_A~ ')
         line = line.replace('/*', ' ~C_O~ ')
         line = line.replace('*/', ' ~C_C~ ')
+    
+        line = line.replace('>>>', ' ~F_R_S~ ')
+        line = line.replace('>>', ' ~R_S~ ')
+        line = line.replace('<<', ' ~L_S~ ')
+        line = line.replace('&', ' & ')
+        line = line.replace('|', ' ~OR~ ')
+        line = line.replace('^', ' ^ ')
+        
         line = line.replace('(', ' ( ')
         line = line.replace(')', ' ) ')
         line = line.replace(':', ' : ')
@@ -79,7 +91,7 @@ def js_to_tokens(js_file):
         line = line.replace('"', ' " ')
         line = line.replace("'", " ' ")
         line = line.split()
-        line.append('endline'+str(line_index))
+        line.append('endlineYaa'+str(line_index))
         tokens_temp.append(line)
         line_index += 1
 
