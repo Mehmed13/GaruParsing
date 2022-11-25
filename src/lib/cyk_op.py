@@ -58,8 +58,11 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                     idx += 1
                     while ((idx < n_tokens_initial) and (tokens_input[idx] != "~C_C~")):
                         idx += 1
-                    if (tokens_input[idx] == "~C_C~"):
-                        idx += 1
+                    if (idx < n_tokens_initial):
+                        if (tokens_input[idx] == "~C_C~"):
+                            idx += 1
+                    else:
+                        tokens_input_final.append("undef")
 
                 elif ((token == "'") or (token == '"')):  # Jika pembuka string
                     skip_for_string = True
