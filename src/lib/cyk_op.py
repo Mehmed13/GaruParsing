@@ -67,73 +67,6 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 else:  # jika token terminal lain
                     tokens_input_final.append(token)
                     idx += 1
-        # print(tokens_input_final)
-        # for token in tokens_input:
-        #     idx = tokens_input.index(token)
-        #     print(idx, ":", token)
-        #     if skip_for_string:  # Jika token bagian dari string
-        #         if (token == "'") or (token == '"'):  # akhir dari string
-        #             skip_for_string = False
-        #             if (token != open_string):
-        #                 next_idx = idx
-        #                 while (tokens_input[next_idx][:7] != "endline"):
-        #                     next_idx += 1
-        #                 # tokens_input[idx][:7] == "endline"
-        #                 # catatan lines error
-        #                 error_Lines.append(tokens_input[next_idx][7:])
-
-        #         else:  # mengubah token di dalam string menjadi word
-        #             idx = tokens_input.index(token)
-        #             tokens_input.pop(idx)
-        #             tokens_input.insert(idx, "word")
-        #             # tokens_input.remove(token)
-        #     else:  # jika token bukan bagian dari string
-        #         if (token[:7] not in tokens_terminal):
-        #             category = categorize_token(token)
-        #             tokens_input.pop(idx)
-        #             tokens_input.insert(idx, category)
-        #             # tokens_input.remove(token)
-        #         else:
-        #             if (token == '/'):
-        #                 if (tokens_input[idx+1] == '/'):  # jika comment single line
-        #                     for i in range(2):
-        #                         # tokens_input.remove(tokens_input[idx])
-        #                         tokens_input.pop(idx)
-        #                     next_idx = idx
-        #                     n_tokens_initial = len(tokens_input)
-        #                     # remove semua elemen dalam comment
-        #                     while (next_idx < n_tokens_initial) and (tokens_input[idx][:7] != 'endline'):
-        #                         # tokens_input.remove(tokens_input[idx])
-        #                         tokens_input.pop(idx)
-        #                         next_idx += 1
-        #                     # menghapus token endline
-        #                     if tokens_input[idx][:7] == "endline":
-        #                         # tokens_input.remove(tokens_input[idx])
-        #                         tokens_input.pop(idx)
-        #                 elif (tokens_input[idx+1] == '*'):  # jika  comment multiline
-        #                     for i in range(2):
-        #                         # tokens_input.remove(tokens_input[idx])
-        #                         tokens_input.pop(idx)
-        #                     next_idx = idx
-        #                     n_tokens_initial = len(tokens_input)
-        #                     while (next_idx < n_tokens_initial) and ((tokens_input[idx] != "*") and (tokens_input[idx + 1] != "/")):
-        #                         # tokens_input.remove(tokens_input[idx])
-        #                         tokens_input.pop(idx)
-        #                         next_idx += 1
-        #                     if (tokens_input):
-        #                         if (tokens_input[idx] == "*") and (tokens_input[idx + 1] == "/"):
-        #                             for i in range(2):
-        #                                 # tokens_input.remove(tokens_input[idx])
-        #                                 tokens_input.pop(idx)
-        #                     else:
-        #                         break
-
-        #             elif (token == "'"):
-        #                 skip_for_string = True
-        #                 open_string = "'"
-        #             elif (token == '"'):
-        #                 skip_for_string = True
-        #                 open_string = '"'
     # print(tokens_input_final)
 
     # Menghapus endline pada tokens
@@ -165,6 +98,10 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                         cyk_table[0][i].append(rule)
         # print(cyk_table)
         # print()
+
+        # REKURENS:
+        # Mengisi cyk table bottom to top (Dalam representasi matriks kali ini terbalik)
+        # Berhenti hingga di puncak (level n_tokens final)
         for i in range(1, n_tokens_final):
             for j in range(n_tokens_final-i):
                 for k in range(i):
