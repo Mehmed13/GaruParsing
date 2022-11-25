@@ -76,7 +76,7 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
             tokens_input_final.remove(token)
     # print()
     # print()
-    print(tokens_input_final)
+    # print(tokens_input_final)
     n_tokens_final = len(tokens_input_final)
 
     if (n_tokens_final != 0):
@@ -136,7 +136,7 @@ def check_validity(file_terminal, cnf_cnf_grammar, file_input):
     last_el, error_Lines = cyk_algorithm(
         file_terminal, cnf_cnf_grammar, file_input)
     valid = False
-    print(last_el)
+    # print(last_el)
     # Pengecekan elemen top
     for term in last_el:
         if term == "START":
