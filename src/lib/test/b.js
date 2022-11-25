@@ -1,5 +1,5 @@
 if(a>(b)) {
-    if(A>=b) {
+    if(A ~LO_AN~ b) {
         if(A===B) {
             
         }
@@ -15,14 +15,13 @@ if(a>(b)) {
     }
 }
 a=3
-if(A>b) {
+if(ab) {
     if(A>=B) {
 
     }
 }
-else if (true){
-    a=1;
+else if (a || b){
+    ;;;;;a=1;
     
 }
 else{}
-// aaa
