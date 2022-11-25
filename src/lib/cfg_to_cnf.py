@@ -7,7 +7,7 @@ def simplify_cfg(cfg_grammar):
     #       Contoh: {'A': [['B']], 'B': [['C']]} menjadi {'A': [['C']]}.
     # Proses: Melakukan simplifikasi terhadap cfg_grammar
 
-    tokens_terminal, terminal_rule = read_terminal('lib/terminal.txt')
+    tokens_terminal, terminal_rule = read_terminal('lib/Terminal_CFG.txt')
 
     # Mengubah ditionary menjadi list untuk memudahkan pemrosesan list
     list_grammar = []
@@ -193,7 +193,7 @@ def read_terminal(terminal_file_name):
         optimized_line = line.replace("\n", "")
         tokens_terminal.append(optimized_line)
 
-    terminal_rulefile = open("lib/terminal_rule.txt", "r")
+    terminal_rulefile = open("lib/Rule_Terminal_CFG.txt", "r")
     terminal_ruletemp = terminal_rulefile.readlines()
     terminal_rulefile.close()
 
