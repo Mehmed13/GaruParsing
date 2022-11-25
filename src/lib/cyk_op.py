@@ -42,23 +42,23 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 tokens_input_final.append(category)
                 idx += 1
             else:  # jika token merupakan terminal
-                if (token == '/'):
-                    if (tokens_input[idx+1] == '/'):  # comment single line
-                        idx += 2
-                        while ((idx < n_tokens_initial) and (tokens_input[idx][:7] != "endline")):
-                            idx += 1
-                        if (tokens_input[idx][:7] == "endline"):
-                            tokens_input_final.append(tokens_input[idx])
-                            idx += 1
-                    elif (tokens_input[idx+1] == '*'):  # comment multiline
-                        idx += 2
-                        while ((idx < n_tokens_initial) and (tokens_input[idx] != '*' and tokens_input[idx+1] != '/')):
-                            idx += 1
-                        if ((tokens_input[idx] == '*') and (tokens_input[idx+1] == '/')):
-                            idx += 2
-                    else:  # jika token terminal lain
-                        tokens_input_final.append(token)
+                if (token == "~C_A~"):
+                    # if (tokens_input[idx+1] == '/'):  # comment single line
+                    #     idx += 2
+                    idx += 1
+                    while ((idx < n_tokens_initial) and (tokens_input[idx][:7] != "endline")):
                         idx += 1
+                    if (tokens_input[idx][:7] == "endline"):
+                        tokens_input_final.append(tokens_input[idx])
+                        idx += 1
+
+                elif (token == "~C_O~"):
+                    idx += 1
+                    while ((idx < n_tokens_initial) and (tokens_input[idx] != "~C_C~")):
+                        idx += 1
+                    if (tokens_input[idx] == "~C_C~"):
+                        idx += 1
+
                 elif ((token == "'") or (token == '"')):  # Jika pembuka string
                     skip_for_string = True
                     tokens_input_final.append(token)
