@@ -43,8 +43,6 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 idx += 1
             else:  # jika token merupakan terminal
                 if (token == "~C_A~"):
-                    # if (tokens_input[idx+1] == '/'):  # comment single line
-                    #     idx += 2
                     idx += 1
                     while ((idx < n_tokens_initial) and (tokens_input[idx][:7] != "endline")):
                         idx += 1
