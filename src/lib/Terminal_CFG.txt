@@ -46,7 +46,7 @@ endline
 {
 }
 &
-||
+//
 ~LO_AN~
 ~LO_OR~
 ~EX~
