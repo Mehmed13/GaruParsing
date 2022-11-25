@@ -37,16 +37,16 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                 tokens_input_final.append("word")
                 idx += 1
         else:  # Jika tidak berada di dalam string
-            if (token[:7] not in tokens_terminal):  # Jika token bukan merupakan terminal
+            if (token[:10] not in tokens_terminal):  # Jika token bukan merupakan terminal
                 category = categorize_token(token)
                 tokens_input_final.append(category)
                 idx += 1
             else:  # jika token merupakan terminal
                 if (token == "~C_A~"):
                     idx += 1
-                    while ((idx < n_tokens_initial) and (tokens_input[idx][:7] != "endline")):
+                    while ((idx < n_tokens_initial) and (tokens_input[idx][:10] != "endlineYaa")):
                         idx += 1
-                    if (tokens_input[idx][:7] == "endline"):
+                    if (tokens_input[idx][:10] == "endlineYaa"):
                         tokens_input_final.append(tokens_input[idx])
                         idx += 1
 
@@ -67,11 +67,11 @@ def cyk_algorithm(file_terminal, cnf_grammar, file_input):
                     idx += 1
     # print(tokens_input_final)
 
-    # Menghapus endline pada tokens
+    # Menghapus endlineYaa pada tokens
     n_tokens_temp = len(tokens_input_final)
     tokens_input_semifinal = tokens_input_final.copy()
     for i in range(n_tokens_temp):
-        if ("endline" in tokens_input_semifinal[i]):
+        if ("endlineYaa" in tokens_input_semifinal[i]):
             token = tokens_input_semifinal[i]
             tokens_input_final.remove(token)
     # print()
