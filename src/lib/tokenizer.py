@@ -15,7 +15,11 @@ def categorize_token(token):
             return "num"
         else:
             return "undef"
-    return "word"
+    else:
+        for char in token[1:]:
+            if (char not in number) and (char not in variable_prefix):
+                return "undef"
+        return "word"
 
 
 def js_to_tokens(js_file):
