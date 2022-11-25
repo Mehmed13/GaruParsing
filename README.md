@@ -1,7 +1,5 @@
 # IF2124 - Teori Bahasa Formal dan Otomata 
-## GaruParsing
-## Tugas Besar TBFO - Parsing node.js
-## PROGRAM COMPILER BAHASA JAVASCRIPT
+## GaruParsing - PROGRAM COMPILER BAHASA JAVASCRIPT
 ### ANGGOTA
     1. Nigel Sahl (13521043)
     2. Ghazi Akmal Fauzan (13521058)
