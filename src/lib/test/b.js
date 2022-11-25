@@ -21,7 +21,7 @@ if(A>b) {
     }
 }
 else if (true){
-    a=1
+    a=1;
     
 }
 else{}
