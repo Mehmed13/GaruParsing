@@ -16,4 +16,4 @@
     2. Jalankan program dengan mengetikkan '''python main.py nama_file.js''' pada terminal dengan nama_file.js adalah file yang akan diuji
     3. Program akan berjalan dan akan mengeluarkan output status "Accepted" atau "Syntax Error" sesuai dengan input anda.
 
-#### Selamat mencoba! 
+### Selamat mencoba! 
